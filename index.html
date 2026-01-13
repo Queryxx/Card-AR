@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MindAR Image Tracking</title>
+
+  <!-- A-Frame -->
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+  <!-- MindAR -->
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+  <script>
+    // Debug GLTF loading
+    window.addEventListener('load', () => {
+      console.log('Page loaded');
+      fetch('3dd64788-6c2d-4391-ae52-b793208e5eb9_textured_mesh.glb')
+        .then(res => {
+          console.log('GLB fetch status:', res.status);
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+          return res.blob();
+        })
+        .then(data => console.log('✓ GLB file loaded successfully, size:', data.size, 'bytes'))
+        .catch(err => console.error('✗ GLB fetch error:', err));
+
+      // Listen for GLTF model events
+      setTimeout(() => {
+        const gltfModel = document.querySelector('a-gltf-model');
+        if (gltfModel) {
+          console.log('GLTF Model element found');
+          gltfModel.addEventListener('model-loaded', () => console.log('✓ Model loaded and rendered successfully!'));
+          gltfModel.addEventListener('model-error', (e) => console.error('✗ Model error:', e.detail));
+        } else {
+          console.error('✗ GLTF Model element NOT found');
+        }
+      }, 1000);
+    });
+  </script>
+</head>
+<body>
+
+  <a-scene
+    mindar-image="imageTargetSrc: targets.mind;"
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: true"
+    renderer="colorSpace: sRGB"
+  >
+
+    <!-- Lighting -->
+    <a-light type="ambient" intensity="0.8" color="#ffffff"></a-light>
+    <a-light type="directional" intensity="0.8" position="0 1 1" color="#ffffff"></a-light>
+
+    <!-- Camera -->
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+    <!-- Image target -->
+    <a-entity mindar-image-target="targetIndex: 0">
+
+      <!-- 3D Model -->
+      <a-gltf-model
+        src="3dd64788-6c2d-4391-ae52-b793208e5eb9_textured_mesh.glb"
+        position="0 0 0"
+        rotation="0 0 0"
+        scale="1 1 1"
+      ></a-gltf-model>
+
+    </a-entity>
+  </a-scene>
+
+</body>
+</html>
