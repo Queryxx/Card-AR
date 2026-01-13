@@ -53,16 +53,16 @@
           const distance = modelPos.distanceTo(cameraPos);
           
           // Calculate scale based on distance
-          // Far (distance > 2): very small scale (0.02)
-          // Close (distance < 0.5): small scale (0.08)
+          // Far (distance > 2): tiny scale (0.005)
+          // Close (distance < 0.5): very small scale (0.02)
           let scale;
           if (distance > 2) {
-            scale = 0.02;
+            scale = 0.005;
           } else if (distance < 0.5) {
-            scale = 0.08;
+            scale = 0.02;
           } else {
             // Linear interpolation between distances
-            scale = 0.02 + (2 - distance) * (0.06 / 1.5);
+            scale = 0.005 + (2 - distance) * (0.015 / 1.5);
           }
           
           gltfModel.setAttribute('scale', `${scale} ${scale} ${scale}`);
@@ -95,7 +95,7 @@
         src="3dd64788-6c2d-4391-ae52-b793208e5eb9_textured_mesh.glb"
         position="0 0 0"
         rotation="0 0 0"
-        scale="0.02 0.02 0.02"
+        scale="0.005 0.005 0.005"
       ></a-gltf-model>
 
     </a-entity>
