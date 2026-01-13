@@ -40,34 +40,6 @@
           console.error('✗ GLTF Model element NOT found');
         }
       }, 1000);
-
-      // Responsive scaling based on distance
-      const scene = document.querySelector('a-scene');
-      const gltfModel = document.querySelector('a-gltf-model');
-      const camera = document.querySelector('a-camera');
-      
-      scene.addEventListener('tick', () => {
-        if (gltfModel && camera) {
-          const modelPos = gltfModel.object3D.getWorldPosition(new THREE.Vector3());
-          const cameraPos = camera.object3D.getWorldPosition(new THREE.Vector3());
-          const distance = modelPos.distanceTo(cameraPos);
-          
-          // Calculate scale based on distance
-          // Far (distance > 2): extremely tiny scale (0.00001)
-          // Close (distance < 0.5): extremely tiny scale (0.00005)
-          let scale;
-          if (distance > 2) {
-            scale = 0.00001;
-          } else if (distance < 0.5) {
-            scale = 0.00005;
-          } else {
-            // Linear interpolation between distances
-            scale = 0.00001 + (2 - distance) * (0.00004 / 1.5);
-          }
-          
-          gltfModel.setAttribute('scale', `${scale} ${scale} ${scale}`);
-        }
-      });
     });
   </script>
 </head>
@@ -95,7 +67,7 @@
         src="3dd64788-6c2d-4391-ae52-b793208e5eb9_textured_mesh.glb"
         position="0 0 0"
         rotation="0 0 0"
-        scale="0.00001 0.00001 0.00001"
+        scale="0.5 0.5 0.5"
       ></a-gltf-model>
 
     </a-entity>
